@@ -27,6 +27,27 @@ LibreTV Next.js 迁移版：免费在线视频聚合搜索与观看平台。基�
 
 ## 部署
 
+### Cloudflare Workers
+
+当前 Next.js 版本通过 OpenNext 部署到 Workers，不适用旧版 Cloudflare Pages 教程。
+
+```bash
+npm ci
+npm run build:cloudflare
+npx wrangler login
+npx wrangler secret put PASSWORD
+npm run deploy:cloudflare
+```
+
+`PASSWORD` 只保存为 Cloudflare secret，不要填写到 `wrangler.jsonc` 或提交到 Git。
+Worker 名称默认为 `libretv`；修改名称时，也要同步修改 `services` 中的自引用名称。
+本地 Workers 预览可在未提交的 `.dev.vars` 中设置 `PASSWORD`，然后运行
+`npm run preview:cloudflare`。Docker 和普通 Node.js 部署仍使用原有命令。
+
+如在 Cloudflare 控制台连接 GitHub：构建命令填写 `npm run build:cloudflare`，
+部署命令填写 `npx opennextjs-cloudflare deploy`，并在 Worker 的变量与机密中设置 `PASSWORD`。
+部署后访问 `/api/status` 核对版本和密码配置；首次使用需在设置中添加自己的数据源。
+
 ### Docker（推荐）
 
 ```bash
