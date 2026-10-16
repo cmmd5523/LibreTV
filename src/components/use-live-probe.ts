@@ -27,7 +27,8 @@ export interface ProbeResult {
   kbps?: number;
 }
 
-const CHUNK_SIZE = 50;
+// 每个频道需要请求清单、分片及 DNS；缩小批次以适配 Workers 免费版的单次子请求上限。
+const CHUNK_SIZE = 5;
 /** 同时在途的批次数：与 CHUNK_SIZE 相乘即最大并发探测规模 */
 const CHUNK_CONCURRENCY = 2;
 /**
